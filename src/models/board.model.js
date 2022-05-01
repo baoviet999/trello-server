@@ -19,12 +19,14 @@ const validateSchema = async (data) => {
 const createNew = async (data) => {
     try {
         const newValue = await validateSchema(data);
-        await getDb().collection(colectionName).insertOne(newValue);
+        const result = await getDb().collection(colectionName).insertOne(newValue);
+        const a = getDb().collection(colectionName).findOne({ _id: result.insertedId });
+        return a;
     } catch (error) {
-        console.log(error);
+        throw new Error(error);
     }
 };
 
-export const boardModel = { 
+export const boardModel = {
     createNew,
 };
