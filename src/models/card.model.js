@@ -18,7 +18,10 @@ const validateCard = async (data) => {
 const createNewCard = async (data) => {
     try {
         const newCard = await validateCard(data);
-        await getDb().collection(cardCollectionName).insertOne(newCard);
+        const db = await getDb().collection(cardCollectionName);
+        const result = await db.insertOne(newCard);
+        const card = await db.findOne({ _id: result.insertedId });
+        return card;
     } catch (error) {
         console.log(error);
     }

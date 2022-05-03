@@ -2,7 +2,9 @@ import Joi from "joi";
 import { getDb } from "../config/mongdb.js";
 
 const colectionName = "boards";
+
 const collectionShema = Joi.object({
+    boardId: Joi.string().required(),
     title: Joi.string().required().max(20).min(3),
     columnOrder: Joi.array().items(Joi.string()).default([]),
     createdAt: Joi.date().default(Date.now()),
@@ -28,5 +30,7 @@ const createNew = async (data) => {
 };
 
 export const boardModel = {
+    collectionShema,
     createNew,
 };
+
